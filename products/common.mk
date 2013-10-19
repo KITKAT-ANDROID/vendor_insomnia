@@ -15,7 +15,7 @@ PRODUCT_PACKAGES += \
     
     
 
-InsomniaROM_Version=4.3
+InsomniaROM_Version=4.3.1
 
 Insomnia_BUILD=$(Insomnia_Version)
 
@@ -175,7 +175,6 @@ PRODUCT_PACKAGES += \
     Development \
     LatinIME \
     Superuser \
-    su \
     BluetoothExt
 
 # CM Hardware Abstraction Framework
