@@ -95,15 +95,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # Version information used on all builds
 PRODUCT_BUILD_PROP_OVERRIDES += BUILD_DISPLAY_ID=JLS36I BUILD_ID=JLS36I BUILD_VERSION_TAGS=release-keys USER=android-build BUILD_EST_DATE=$(shell date +"%s")
 
-# Goodies
-PRODUCT_COPY_FILES += \
-    vendor/insomnia/proprietary/common/app/Themer.apk:system/app/Themer.apk \
-    vendor/insomnia/proprietary/common/app/estrongs.apk:system/app/estrongs.apk \
-    vendor/insomnia/proprietary/common/app/googlemusic.apk:system/app/googlemusic.apk \
-    vendor/insomnia/proprietary/common/app/Wallpapers.apk:system/app/Wallpapers.apk 
-
-
-
 
 PRODUCT_COPY_FILES += \
     vendor/insomnia/proprietary/common/xbin/sysrw:system/xbin/sysrw \
