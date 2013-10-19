@@ -1,3 +1,6 @@
 # CDMA APN list
 PRODUCT_COPY_FILES += \
-    vendor/ROM/prebuilt/common/etc/apns-conf-cdma.xml:system/etc/apns-conf.xml
+    vendor/insomnia/proprietary/cdma/etc/apns-conf.xml:system/etc/apns-conf.xml
+
+PRODUCT_PACKAGE_OVERLAYS += \
+    vendor/insomnia/overlay/cdma_phone

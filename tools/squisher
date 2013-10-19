@@ -5,17 +5,16 @@
 #
 
 OUT_TARGET_HOST=`uname -a | grep Darwin`
-if [ -z "$OUT_TARGET_HOST" ]
-then
-   OUT_TARGET_HOST=linux-x86
-   MD5=md5sum
-   XARGS="xargs --max-args=1 --max-procs `grep 'processor' /proc/cpuinfo|wc -l`"
-   SED=sed
+if [ -z "$OUT_TARGET_HOST" ]; then
+	OUT_TARGET_HOST=linux-x86
+	MD5=md5sum
+	XARGS="xargs --max-args=1 --max-procs `grep 'processor' /proc/cpuinfo|wc -l`"
+	SED=sed
 else
-   OUT_TARGET_HOST=darwin-x86
-   MD5=md5
-   XARGS="xargs -n 1 -P `sysctl hw.ncpu | awk '{print $2}'`"
-   SED=gsed
+	OUT_TARGET_HOST=darwin-x86
+	MD5=md5
+	XARGS="xargs -n 1 -P `sysctl hw.ncpu | awk '{print $2}'`"
+	SED=gsed
 fi
 
 if [ -z "$OUT" -o ! -d "$OUT" ]; then
@@ -23,16 +22,20 @@ if [ -z "$OUT" -o ! -d "$OUT" ]; then
 	exit 1
 fi
 
-ROMVERSION=$1
-MODVERSION=$ROMVERSION-squished
+if [ "$TARGET_BUILD_TYPE" = "debug" ]; then
+	OTAPACKAGE=$OUT/${TARGET_PRODUCT}_debug-ota-$TARGET_BUILD_VARIANT.$USER.zip
+elif [ "$TARGET_BUILD_VARIANT" = "userdebug" ]; then
+	OTAPACKAGE=$OUT/$TARGET_PRODUCT-ota-eng.$USER.zip
+else
+	OTAPACKAGE=$OUT/$TARGET_PRODUCT-ota-$TARGET_BUILD_VARIANT.$USER.zip
+fi
 
-OTAPACKAGE=$OUT/$ROMVERSION.zip
 if [ ! -f "$OTAPACKAGE" ]; then
 	echo "$OTAPACKAGE doesn't exist!";
 	exit 1
 fi
 
-OPTICHARGER=$ANDROID_BUILD_TOP/vendor/ev/tools/opticharger
+OPTICHARGER=$ANDROID_BUILD_TOP/vendor/insomnia/tools/opticharger
 QUIET=-q
 DELETE_BINS="applypatch applypatch_static check_prereq recovery updater"
 
@@ -58,10 +61,23 @@ find ./ -name \*.apk | $XARGS $OPTICHARGER
 
 # Fix build.prop
 $SED -i \
-	-e '/ro\.build\.romversion/s/$/-squished/' \
+	-e '/ro\.kernel\.android\.checkjni/d' \
+	-e '/ro\.build\.type/s/eng/user/' \
 	$REPACK/ota/system/build.prop
-#	-e '/ro\.build\.type/s/eng/user/' \
 
+# Delete ParanoidAndroid specific files
+if [ -f $ANDROID_BUILD_TOP/vendor/insomnia/tools/squisher.rm ]; then
+	for RM_FILE in `cat $ANDROID_BUILD_TOP/vendor/insomnia/tools/squisher.rm`; do
+		rm -f $REPACK/ota/$RM_FILE
+	done
+fi
+
+# Delete target product specific files
+if [ -f $ANDROID_BUILD_TOP/vendor/insomnia/tools/$TARGET_PRODUCT-squisher.rm ]; then
+	for RM_FILE in `cat $ANDROID_BUILD_TOP/vendor/insomnia/tools/$TARGET_PRODUCT-squisher.rm`; do
+		rm -f $REPACK/ota/$RM_FILE
+	done
+fi
 
 # Delete unnecessary binaries
 ( cd $REPACK/ota/system/bin; echo $DELETE_BINS | xargs rm -f; )
@@ -71,10 +87,35 @@ rm -rf $REPACK/ota/recovery
 
 # Strip modules
 [ -d $REPACK/ota/system/lib/modules ] && \
-	find $REPACK/ota/system/lib/modules -name "*.ko" -print0 | xargs -0 arm-eabi-strip --strip-unneeded
+	find $REPACK/ota/system/lib/modules -name "*.ko" -exec -0 arm-eabi-strip --strip-unneeded '{}' \;
 
 # Determine what to name the new signed package
-OUTFILE=$OUT/$MODVERSION.zip
+if [ -z "$CYANOGEN_NIGHTLY" ]; then
+	INSOMNIAVERSION=`grep 'ro.modversion=' $REPACK/ota/system/build.prop | sed -e 's/ro.modversion=//g'`
+	OVERLAYTARGET=`grep 'ro.insomnia.family=' $REPACK/ota/system/build.prop | sed -e 's/ro.insomnia.family=//g'`
+	: ${INSOMIAVERSION:=nightly}
+	OUTFILE=$OUT/$INSOMNIAVERSION.zip
+	echo INSOMNIAVERSION: $INSOMNIAVERSION
+else
+	OUTFILE=$OUT/update-squished.zip
+fi
+
+
+
+# Inject build manifest
+printf "Injecting build manifest..."
+( cd $ANDROID_BUILD_TOP; repo manifest -o $REPACK/ota/system/etc/build-manifest.xml -r )
+
+# Copy kernel files
+if [ -f "$ANDROID_BUILD_TOP/vendor/insomnia/prebuilt/kernel/$TARGET_PRODUCT/boot.img" ]; then
+    printf "Copying kernel files for $TARGET_PRODUCT..."
+    echo
+    cp -r $ANDROID_BUILD_TOP/vendor/insomnia/prebuilt/kernel/$TARGET_PRODUCT/boot.img $REPACK/ota/
+    cp -r $ANDROID_BUILD_TOP/vendor/insomnia/prebuilt/kernel/$TARGET_PRODUCT/system/bin/* $REPACK/ota/system/bin/
+    cp -r $ANDROID_BUILD_TOP/vendor/insomnia/prebuilt/kernel/$TARGET_PRODUCT/system/lib/* $REPACK/ota/system/lib/
+    cp -r $ANDROID_BUILD_TOP/vendor/insomnia/prebuilt/kernel/$TARGET_PRODUCT/system/lib/modules/* $REPACK/ota/system/lib/modules/
+    cp -r $ANDROID_BUILD_TOP/vendor/insomnia/prebuilt/kernel/$TARGET_PRODUCT/system/extras $REPACK/ota/system/
+fi
 
 # Pack it up and sign
 printf "Zipping package..."
@@ -82,14 +123,13 @@ printf "Zipping package..."
 echo
 printf "Signing package..."
 SECURITYDIR=$ANDROID_BUILD_TOP/build/target/product/security
-java -Xmx2048m \
+java -Xmx1024m \
 	-jar $ANDROID_BUILD_TOP/out/host/$OUT_TARGET_HOST/framework/signapk.jar \
 	-w $SECURITYDIR/testkey.x509.pem $SECURITYDIR/testkey.pk8 \
 	$REPACK/update.zip $OUTFILE
 echo
 printf "Cleaning up..."
 rm -rf $REPACK
-rm -f $OTAPACKAGE
 echo
 
 # Create a md5 checksum image of the repacked package
@@ -102,5 +142,8 @@ echo "Package complete: $OUTFILE"
 cat $img.md5sum
 echo
 )
+
+echo $OUTFILE > $OUT/romPath
+echo $INSOMNIAVERSION.zip > $OUT/romName
 
 exit 0

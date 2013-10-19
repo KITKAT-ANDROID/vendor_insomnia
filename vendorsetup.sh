@@ -12,9 +12,9 @@ ZOMG_ITS_A_COMBO_COMBO()
     pyramid;
  
   do
-    add_lunch_combo ROM_$x-$1
+    add_lunch_combo insomnia_$x-$1
   done
 }
 
 ZOMG_ITS_A_COMBO_COMBO userdebug
-
+ZOMG_ITS_A_COMBO_COMBO user
