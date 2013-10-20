@@ -16,9 +16,7 @@ $(call inherit-product, vendor/insomnia/products/common_phones.mk)
 PRODUCT_COPY_FILES += \
     vendor/insomnia/proprietary/jf/etc/vanir.cfg:system/etc/vanir.cfg
 
-# 720p overlay
-PRODUCT_PACKAGE_OVERLAYS += \
-    vendor/insomnia/overlay/720p
+
 
 # Hot reboot
 #PRODUCT_PACKAGE_OVERLAYS += \

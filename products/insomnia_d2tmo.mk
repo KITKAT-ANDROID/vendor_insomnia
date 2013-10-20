@@ -36,9 +36,7 @@ PRODUCT_MODEL := SGH-T999
 
 PRODUCT_BUILD_PROP_OVERRIDES += PRODUCT_NAME=d2uc TARGET_DEVICE=d2tmo BUILD_FINGERPRINT="samsung/d2uc/d2att:4.3/JLS36G/T999UVDMD5:user/release-keys" PRIVATE_BUILD_DESC="d2uc-user 4.3 JLS36G T999UVDMD5 release-keys"
 
-# 720p overlay
-PRODUCT_PACKAGE_OVERLAYS += \
-    vendor/insomnia/overlay/720p
+
 
 # Hot reboot
 #PRODUCT_PACKAGE_OVERLAYS += \

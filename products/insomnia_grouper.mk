@@ -36,9 +36,7 @@ PRODUCT_MANUFACTURER := asus
 
 PRODUCT_BUILD_PROP_OVERRIDES += PRODUCT_NAME=nakasi BUILD_FINGERPRINT="google/nakasi/grouper:4.3/JLS36G/737497:user/release-keys" PRIVATE_BUILD_DESC="nakasi-user 4.3 JLS36G 737497 release-keys"
 
-# 720p overlay
-PRODUCT_PACKAGE_OVERLAYS += \
-    vendor/insomnia/overlay/720p
+
 
 # Hot reboot
 PRODUCT_PACKAGE_OVERLAYS += \

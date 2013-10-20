@@ -36,9 +36,7 @@ PRODUCT_MODEL := SPH-L710
 
 PRODUCT_BUILD_PROP_OVERRIDES += PRODUCT_NAME=d2spr TARGET_DEVICE=d2spr BUILD_FINGERPRINT="samsung/d2spr/d2spr:4.3/JLS36G/L710VPBMD4:user/release-keys" PRIVATE_BUILD_DESC="d2spr-user 4.3 JLS36G L710VPBMD4 release-keys"
 
-# 720p overlay
-PRODUCT_PACKAGE_OVERLAYS += \
-    vendor/insomnia/overlay/720p
+
 
 # Hot reboot
 #PRODUCT_PACKAGE_OVERLAYS += \
