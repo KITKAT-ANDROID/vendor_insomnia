@@ -169,6 +169,15 @@ PRODUCT_PACKAGE_OVERLAYS += \
 #SUPERUSER_PACKAGE := com.vanir.superuser
 SUPERUSER_EMBEDDED := true
 
+# Prebuilt SuperSU
+PRODUCT_COPY_FILES += \
+    vendor/insomnia/proprietary/common/app/Superuser.apk:system/app/superuser.apk \
+    vendor/insomnia/proprietary/common/xbin/chattr:system/xbin/chattr \
+    vendor/insomnia/proprietary/common/xbin/99SuperSUDaemon:system/xbin/99SuperSUDaemon \
+    vendor/insomnia/proprietary/common/xbin/su:system/xbin/su \
+    vendor/insomnia/proprietary/common/xbin/daemonsu:system/xbin/daemonsu 
+
+
 # Required CM packages
 PRODUCT_PACKAGES += \
     Camera \
@@ -185,7 +194,6 @@ PRODUCT_PACKAGES += \
 # Optional packages
 PRODUCT_PACKAGES += \
     Basic \
-    ROMSettings \
     SoundRecorder 
   
     
