@@ -1,3 +1,3 @@
-platform_vendor_codekill
+vendor_insomnia
 ========================
 
