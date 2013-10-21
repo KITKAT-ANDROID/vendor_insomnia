@@ -3,7 +3,7 @@ KERNEL_SPAM := WHY DOESNT THIS JUST WORK AMGGGG #not related to the kernel... bu
 
 # Boot Animation
 PRODUCT_COPY_FILES += \
-    vendor/insomnia/proprietary/boot_animations/1080x1920.zip:system/media/bootanimation.zip
+    vendor/insomnia/proprietary/bootanimation/bootanimation.zip:system/media/bootanimation.zip
 
 # Inherit common product files.
 NO_DRM_BLOBS := true

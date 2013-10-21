@@ -7,10 +7,10 @@ KERNEL_SPAM := CM Kernel
 PRODUCT_PROPERTY_OVERRIDES += \
     drm.service.enabled=true 
   
-
 # Boot Animation
 PRODUCT_COPY_FILES += \
-    vendor/insomnia/proprietary/boot_animations/540x960.zip:system/media/bootanimation.zip
+    vendor/insomnia/proprietary/bootanimation/bootanimation.zip:system/media/bootanimation.zip
+
 
 # Inherit common phone stuff
 $(call inherit-product, vendor/insomnia/products/common_phones.mk)
