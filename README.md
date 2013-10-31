@@ -1,3 +1,3 @@
 vendor_insomnia
 ========================
-KitKat
+KitKat android 4.4
