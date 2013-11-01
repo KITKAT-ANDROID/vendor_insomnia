@@ -4,7 +4,7 @@
 #
 
 BOARD_SEPOLICY_DIRS := \
-    vendor/insomnia/sepolicy
+    vendor/kitkat/sepolicy
 
 BOARD_SEPOLICY_UNION := \
     mac_permissions.xml

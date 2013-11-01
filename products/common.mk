@@ -1,10 +1,10 @@
 # Theme files
 PRODUCT_PACKAGE_OVERLAYS += \
-    vendor/insomnia/overlay/theme
+    vendor/kitkat/overlay/theme
 
 # DSPManager and bravia
-$(call inherit-product, vendor/insomnia/products/media_sexificators.mk)
-$(call inherit-product, vendor/insomnia/config/nfc_enhanced.mk)
+$(call inherit-product, vendor/kitkat/products/media_sexificators.mk)
+$(call inherit-product, vendor/kitkat/config/nfc_enhanced.mk)
 
 # Build packages included in manifest
 PRODUCT_PACKAGES += \
@@ -15,12 +15,12 @@ PRODUCT_PACKAGES += \
     
     
 
-InsomniaROM_Version=4.3.1
+kitkat_Version=4.4
 
-Insomnia_BUILD=$(Insomnia_Version)
+kitkat_BUILD=$(KitKat_Version)
 
 ifeq ($(RELEASE),)
-Insomnia_BUILD=$(Insomnia_Version)$(shell date +".%m%d%y")
+kitkat_BUILD=$(kitkat_Version)$(shell date +".%m%d%y")
 endif
 
 # Build Properties
@@ -36,12 +36,12 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.config.ringtone=Hydra.ogg \
     ro.config.notification_sound=Proxima.ogg \
     ro.config.alarm_alert=Alarm_Beep_03.ogg \
-    ro.modversion=$(Insomnia_BUILD) \
+    ro.modversion=$(kitkat_BUILD) \
     wifi.supplicant_scan_interval=300 \
     persist.sys.root_access=3 \
     ro.build.selinux=1
 
-ifeq ($(INSOMNIA_FAILSAFE),)
+ifeq ($(KITKAT_FAILSAFE),)
 # Build.Prop Tweaks
 PRODUCT_PROPERTY_OVERRIDES += \
     dalvik.vm.checkjni=false \
@@ -75,95 +75,79 @@ endif
 PRODUCT_PROPERTY_OVERRIDES += \
     dalvik.vm.debug.alloc=0
 
-# Questionable stuff -- just trusting stock values on these
-#    movfilter=40 \
-#    per_sec=300 \
-#    windowsmgr.max_events_per_sec=280 \
-#    ro.mot.eri.losalert.delay=600 \
-#    debug.composition.type=gpu \
-#    debug.performance.tuning=1 \
-#    debug.sf.hw=1
-#    ro.VISIBLE_APP_MEM=8192 \
-#    ro.HOME_APP_ADJ=1 \
-#    ro.HOME_APP_MEM=8192 \
-#    ro.FOREGROUND_APP_MEM=8192 \
-#    dalvik.vm.lockprof.threshold=850 \
 
-### These will prevent any FC popups from showing... ever. (lol)
-#    profiler.force_disable_err_rpt=1 \
-#    profiler.force_disable_ulog=1 \
 
 # Version information used on all builds
 PRODUCT_BUILD_PROP_OVERRIDES += BUILD_DISPLAY_ID=JLS36I BUILD_ID=JLS36I BUILD_VERSION_TAGS=release-keys USER=android-build BUILD_EST_DATE=$(shell date +"%s")
 
 
 PRODUCT_COPY_FILES += \
-    vendor/insomnia/proprietary/common/xbin/sysrw:system/xbin/sysrw \
-    vendor/insomnia/proprietary/common/xbin/sysro:system/xbin/sysro \
-    vendor/insomnia/proprietary/common/xbin/vanirinteractivegovernorgovernor:system/xbin/vanirinteractivegovernorgovernor \
-    vendor/insomnia/proprietary/common/xbin/vanirflash:system/xbin/vanirflash \
-    vendor/insomnia/proprietary/common/init.vanir.rc:root/init.vanir.rc \
-    vendor/insomnia/proprietary/common/bin/sysinit:system/bin/sysinit \
-    vendor/insomnia/proprietary/common/etc/init.d/00firsties:system/etc/init.d/00firsties \
-    vendor/insomnia/proprietary/common/xbin/purgethumbnails:system/xbin/purgethumbnails
+    vendor/kitkat/proprietary/common/xbin/sysrw:system/xbin/sysrw \
+    vendor/kitkat/proprietary/common/xbin/sysro:system/xbin/sysro \
+    vendor/kitkat/proprietary/common/xbin/vanirinteractivegovernorgovernor:system/xbin/vanirinteractivegovernorgovernor \
+    vendor/kitkat/proprietary/common/xbin/vanirflash:system/xbin/vanirflash \
+    vendor/kitkat/proprietary/common/init.vanir.rc:root/init.vanir.rc \
+    vendor/kitkat/proprietary/common/bin/sysinit:system/bin/sysinit \
+    vendor/kitkat/proprietary/common/etc/init.d/00firsties:system/etc/init.d/00firsties \
+    vendor/kitkat/proprietary/common/xbin/purgethumbnails:system/xbin/purgethumbnails
 
 PRODUCT_COPY_FILES += \
-    vendor/insomnia/proprietary/common/lib/liblightcycle.so:system/lib/liblightcycle.so \
-    vendor/insomnia/proprietary/common/lib/libjni_latinimegoogle.so:system/lib/libjni_latinimegoogle.so \
-    vendor/insomnia/proprietary/common/lib/libjni_latinimegoogle.so:system/lib/libjni_latinime.so
+    vendor/kitkat/proprietary/common/lib/liblightcycle.so:system/lib/liblightcycle.so \
+    vendor/kitkat/proprietary/common/lib/libjni_latinimegoogle.so:system/lib/libjni_latinimegoogle.so \
+    vendor/kitkat/proprietary/common/lib/libjni_latinimegoogle.so:system/lib/libjni_latinime.so
 
-ifeq ($(INSOMNIA_FAILSAFE),)
+ifeq ($(KITKAT_FAILSAFE),)
 # Blobs common to all devices
 PRODUCT_COPY_FILES += \
-    vendor/insomnia/proprietary/common/bin/fix_permissions:system/bin/fix_permissions \
-    vendor/insomnia/proprietary/common/xbin/hunter:system/xbin/hunter \
-    vendor/insomnia/proprietary/common/xbin/testinitd:system/xbin/testinitd \
-    vendor/insomnia/proprietary/common/xbin/vanircheckcpu:system/xbin/vanircheckcpu \
-    vendor/insomnia/proprietary/common/xbin/vanirtweakapply:system/xbin/vanirtweakapply \
-    vendor/insomnia/proprietary/common/xbin/vanir:system/xbin/vanir \
-    vendor/insomnia/proprietary/common/xbin/vanirnice:system/xbin/vanirnice
+    vendor/kitkat/proprietary/common/bin/fix_permissions:system/bin/fix_permissions \
+    vendor/kitkat/proprietary/common/xbin/hunter:system/xbin/hunter \
+    vendor/kitkat/proprietary/common/xbin/testinitd:system/xbin/testinitd \
+    vendor/kitkat/proprietary/common/xbin/vanircheckcpu:system/xbin/vanircheckcpu \
+    vendor/kitkat/proprietary/common/xbin/vanirtweakapply:system/xbin/vanirtweakapply \
+    vendor/kitkat/proprietary/common/xbin/vanir:system/xbin/vanir \
+    vendor/kitkat/proprietary/common/xbin/vanirnice:system/xbin/vanirnice
 
 #Imoseyon's zram script
 PRODUCT_COPY_FILES += \
-    vendor/insomnia/proprietary/common/xbin/zram:system/xbin/zram
+    vendor/kitkat/proprietary/common/xbin/zram:system/xbin/zram
 
 # Misc Files
 PRODUCT_COPY_FILES += \
-    vendor/insomnia/proprietary/common/etc/hosts:system/etc/hosts \
-    vendor/insomnia/proprietary/common/etc/resolv.conf:system/etc/resolv.conf
+    vendor/kitkat/proprietary/common/etc/hosts:system/etc/hosts \
+    vendor/kitkat/proprietary/common/etc/resolv.conf:system/etc/resolv.conf
 
 # proprietary guts
 PRODUCT_COPY_FILES += \
-    vendor/insomnia/proprietary/common/media/LMprec_508.emd:system/media/LMprec_508.emd \
-    vendor/insomnia/proprietary/common/media/PFFprec_600.emd:system/media/PFFprec_600.emd
+    vendor/kitkat/proprietary/common/media/LMprec_508.emd:system/media/LMprec_508.emd \
+    vendor/kitkat/proprietary/common/media/PFFprec_600.emd:system/media/PFFprec_600.emd
 
 # entropy mumbo jump
 PRODUCT_COPY_FILES += \
-    vendor/insomnia/proprietary/common/xbin/CB_RunHaveged:system/xbin/CB_RunHaveged \
-    vendor/insomnia/proprietary/common/xbin/haveged:system/xbin/haveged \
-    vendor/insomnia/proprietary/common/xbin/vanirentropy:system/xbin/vanirentropy \
-    vendor/insomnia/proprietary/common/bin/cronlogger:system/bin/cronlogger
+    vendor/kitkat/proprietary/common/xbin/CB_RunHaveged:system/xbin/CB_RunHaveged \
+    vendor/kitkat/proprietary/common/xbin/haveged:system/xbin/haveged \
+    vendor/kitkat/proprietary/common/xbin/vanirentropy:system/xbin/vanirentropy \
+    vendor/kitkat/proprietary/common/bin/cronlogger:system/bin/cronlogger
 
 # init.d Tweaks
 PRODUCT_COPY_FILES += \
-    vendor/insomnia/proprietary/common/etc/sysctl.conf:system/etc/sysctl.conf \
-    vendor/insomnia/proprietary/common/etc/init.d/06ENTROPY:system/etc/init.d/06ENTROPY \
-    vendor/insomnia/proprietary/common/etc/init.d/09cron:system/etc/init.d/09cron \
-    vendor/insomnia/proprietary/common/etc/init.d/98SONIC_SHOCK:system/etc/init.d/98SONIC_SHOCK \
-    vendor/insomnia/proprietary/common/etc/init.d/99vanir:system/etc/init.d/99vanir \
-    vendor/insomnia/proprietary/common/etc/init.d/ZZafterboot:system/etc/init.d/ZZafterboot \
-    vendor/insomnia/proprietary/common/etc/cron/cron.minutely/00nicetweaks:/system/etc/cron/cron.minutely/00nicetweaks \
-    vendor/insomnia/proprietary/common/etc/cron/cron.daily/00sqlitespeed:/system/etc/cron/cron.daily/00sqlitespeed
+    vendor/kitkat/proprietary/common/etc/sysctl.conf:system/etc/sysctl.conf \
+    vendor/kitkat/proprietary/common/etc/init.d/06ENTROPY:system/etc/init.d/06ENTROPY \
+    vendor/kitkat/proprietary/common/etc/init.d/09cron:system/etc/init.d/09cron \
+    vendor/kitkat/proprietary/common/etc/init.d/98SONIC_SHOCK:system/etc/init.d/98SONIC_SHOCK \
+    vendor/kitkat/proprietary/common/etc/init.d/99vanir:system/etc/init.d/99vanir \
+    vendor/kitkat/proprietary/common/etc/init.d/ZZafterboot:system/etc/init.d/ZZafterboot \
+    vendor/kitkat/proprietary/common/etc/cron/cron.minutely/00nicetweaks:/system/etc/cron/cron.minutely/00nicetweaks \
+    vendor/kitkat/proprietary/common/etc/cron/cron.daily/00sqlitespeed:/system/etc/cron/cron.daily/00sqlitespeed
 
 # Backup Tools
 PRODUCT_COPY_FILES += \
-    vendor/insomnia/proprietary/common/bin/backuptool.sh:system/bin/backuptool.sh \
-    vendor/insomnia/proprietary/common/bin/backuptool.functions:system/bin/backuptool.functions \
-    vendor/insomnia/proprietary/common/bin/50-vanir.sh:system/addon.d/50-vanir.sh
+    vendor/kitkat/proprietary/common/bin/backuptool.sh:system/bin/backuptool.sh \
+    vendor/kitkat/proprietary/common/bin/backuptool.functions:system/bin/backuptool.functions \
+    vendor/kitkat/proprietary/common/bin/50-vanir.sh:system/addon.d/50-vanir.sh
 endif
 
 PRODUCT_PACKAGE_OVERLAYS += \
-    vendor/insomnia/overlay/dictionaries
+    vendor/kitkat/overlay/dictionaries
 
 #Define thirdparty for Koush's SU
 #SUPERUSER_PACKAGE := com.vanir.superuser
@@ -171,11 +155,11 @@ SUPERUSER_EMBEDDED := true
 
 # Prebuilt SuperSU
 PRODUCT_COPY_FILES += \
-    vendor/insomnia/proprietary/common/app/Superuser.apk:system/app/superuser.apk \
-    vendor/insomnia/proprietary/common/xbin/chattr:system/xbin/chattr \
-    vendor/insomnia/proprietary/common/xbin/99SuperSUDaemon:system/xbin/99SuperSUDaemon \
-    vendor/insomnia/proprietary/common/xbin/su:system/xbin/su \
-    vendor/insomnia/proprietary/common/xbin/daemonsu:system/xbin/daemonsu 
+    vendor/kitkat/proprietary/common/app/Superuser.apk:system/app/superuser.apk \
+    vendor/kitkat/proprietary/common/xbin/chattr:system/xbin/chattr \
+    vendor/kitkat/proprietary/common/xbin/99SuperSUDaemon:system/xbin/99SuperSUDaemon \
+    vendor/kitkat/proprietary/common/xbin/su:system/xbin/su \
+    vendor/kitkat/proprietary/common/xbin/daemonsu:system/xbin/daemonsu 
 
 
 # Required CM packages
@@ -242,6 +226,6 @@ PRODUCT_PACKAGES += \
     sqlite3
 
 PRODUCT_COPY_FILES += \
-    vendor/insomnia/proprietary/common/etc/permissions/com.tmobile.software.themes.xml:system/etc/permissions/com.tmobile.software.themes.xml
+    vendor/kitkat/proprietary/common/etc/permissions/com.tmobile.software.themes.xml:system/etc/permissions/com.tmobile.software.themes.xml
 
--include vendor/insomnia/sepolicy/sepolicy.mk
+-include vendor/kitkat/sepolicy/sepolicy.mk

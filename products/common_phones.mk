@@ -1,5 +1,5 @@
 # Vanir common
-$(call inherit-product, vendor/insomnia/products/common.mk)
+$(call inherit-product, vendor/kitkat/products/common.mk)
 
 PRODUCT_PACKAGES += \
     SpeakerProximity

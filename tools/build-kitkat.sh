@@ -4,7 +4,7 @@ usage()
 {
 	echo -e ""
 	echo -e ${txtbld}"Usage:"${txtrst}
-	echo -e "  build-ck.sh [options] device"
+	echo -e "  build-kitkat.sh [options] device"
 	echo -e ""
 	echo -e ${txtbld}"  Options:"${txtrst}
 	echo -e "    -c  Clean before build"
@@ -13,20 +13,20 @@ usage()
 	echo -e "    -s  Sync before build"
 	echo -e ""
 	echo -e ${txtbld}"  Example:"${txtrst}
-	echo -e "    ./build-ck.sh -c mako"
+	echo -e "    ./build-kitkat.sh -c mako"
 	echo -e ""
 	exit 1
 }
 
 # colors
-. ./vendor/insomnia/tools/colors
+. ./vendor/kitkat/tools/colors
 
 if [ ! -d ".repo" ]; then
 	echo -e ${red}"No .repo directory found.  Is this an Android build tree?"${txtrst}
 	exit 1
 fi
-if [ ! -d "vendor/insomnia" ]; then
-	echo -e ${red}"No vendor/insomnia directory found.  Is this a INSOMNIA build tree?"${txtrst}
+if [ ! -d "vendor/kitkat" ]; then
+	echo -e ${red}"No vendor/kitkat directory found.  Is this a KITKAT build tree?"${txtrst}
 	exit 1
 fi
 
@@ -63,15 +63,15 @@ fi
 device="$1"
 
 # get current version
-eval $(grep "^INSOMNIA_VERSION_" vendor/insomnia/products/common.mk | sed 's/ *//g')
-VERSION="$INSOMNIA_VERSION_MAJOR.$INSOMNIA_VERSION_MINOR.$INSOMNIA_VERSION_MAINTENANCE"
+eval $(grep "^KITKAT_VERSION_" vendor/kitkat/products/common.mk | sed 's/ *//g')
+VERSION="$KITKAT_VERSION_MAJOR.$KITKAT_VERSION_MINOR.$KITKAT_VERSION_MAINTENANCE"
 
 # get time of startup
 t1=$($DATE +%s)
 
-echo -e ${cya}"Building ${bldppl}INSOMNIA ${bldblu}INSOMNIAC$VERSION"${txtrst}
+echo -e ${cya}"Building ${bldppl}ANDROID ${bldblu}KitKatC$VERSION"${txtrst}
 
-# INSOMNIA device dependencies
+# KITKAT device dependencies
 echo -e ""
 
 echo -e "${txtrst}"
@@ -102,7 +102,7 @@ rm -rf out/target/product/$device/system/
 # lunch device
 echo -e ""
 echo -e ${bldcya}"Lunching device"${txtrst}
-lunch "insomnia_$device-userdebug";
+lunch "kitkat_$device-userdebug";
 
 echo -e ""
 echo -e ${bldylw}"Starting compilation"${txtrst}

@@ -4,7 +4,7 @@
 # cyanogen
 #
 
-. ${ANDROID_BUILD_TOP}/vendor/insomnia/tools/colors
+. ${ANDROID_BUILD_TOP}/vendor/kitkat/tools/colors
 
 OUT_TARGET_HOST=`uname -a | grep Darwin`
 if [ -z "$OUT_TARGET_HOST" ]
@@ -37,7 +37,7 @@ if [ ! -f "$OTAPACKAGE" ]; then
 	exit 1
 fi
 
-OPTICHARGER=$ANDROID_BUILD_TOP/vendor/insomnia/tools/opticharger
+OPTICHARGER=$ANDROID_BUILD_TOP/vendor/kitkat/tools/opticharger
 QUIET=-q
 DELETE_BINS="applypatch applypatch_static check_prereq recovery updater"
 
@@ -67,15 +67,15 @@ $SED -i \
 	$REPACK/ota/system/build.prop
 
 # Delete PAC specific files
-if [ -f $ANDROID_BUILD_TOP/vendor/insomnia/tools/squisher.rm ]; then
-	for RM_FILE in `cat $ANDROID_BUILD_TOP/vendor/insomnia/tools/squisher.rm`; do
+if [ -f $ANDROID_BUILD_TOP/vendor/kitkat/tools/squisher.rm ]; then
+	for RM_FILE in `cat $ANDROID_BUILD_TOP/vendor/kitkat/tools/squisher.rm`; do
 		rm -f $REPACK/ota/$RM_FILE
 	done
 fi
 
 # Delete target product specific files
-if [ -f $ANDROID_BUILD_TOP/vendor/insomnia/tools/$TARGET_PRODUCT-squisher.rm ]; then
-	for RM_FILE in `cat $ANDROID_BUILD_TOP/vendor/insomnia/tools/$TARGET_PRODUCT-squisher.rm`; do
+if [ -f $ANDROID_BUILD_TOP/vendor/kitkat/tools/$TARGET_PRODUCT-squisher.rm ]; then
+	for RM_FILE in `cat $ANDROID_BUILD_TOP/vendor/kitkat/tools/$TARGET_PRODUCT-squisher.rm`; do
 		rm -f $REPACK/ota/$RM_FILE
 	done
 fi
@@ -92,10 +92,10 @@ rm -rf $REPACK/ota/recovery
 
 # Determine what to name the new signed package
 if [ -z "$CYANOGEN_NIGHTLY" ]; then
-        INSOMNIAVERSION=`grep 'ro.insomnia.version=' $REPACK/ota/system/build.prop | sed -e 's/ro.insomnia.version=//g'`
+        KITKATVERSION=`grep 'ro.kitkat.version=' $REPACK/ota/system/build.prop | sed -e 's/ro.kitkat.version=//g'`
 	ABIGEN=`grep 'ro.product.cpu.abi=' $REPACK/ota/system/build.prop | sed -e 's/ro.product.cpu.abi=//g'`
-	OUTFILE=$OUT/$TARGET_PRODUCT-$INSOMNIAVERSION.zip
-	echo -e ""; echo -e "${bldppl}INSOMNIA${bldylw}-VERSION${txtrst}:${cya} $INSOMNIAVERSION"${txtrst}; echo -e ""
+	OUTFILE=$OUT/$TARGET_PRODUCT-$KITKATVERSION.zip
+	echo -e ""; echo -e "${bldppl}KITKAT${bldylw}-VERSION${txtrst}:${cya} $KITKATVERSION"${txtrst}; echo -e ""
 else
 	OUTFILE=$OUT/update-squished.zip
 fi
@@ -104,7 +104,7 @@ fi
 
 if [ -n $ABIGEN ]; then
 	echo ${cya}"Packing in Pre-Built Libs for CPU Variant:${ylw}$ABIGEN"${txtrst}
-	cp ${ANDROID_BUILD_TOP}/vendor/insomnia/prebuilt/libs/$ABIGEN/libbypass.so $REPACK/ota/system/lib/libbypass.so
+	cp ${ANDROID_BUILD_TOP}/vendor/kitkat/prebuilt/libs/$ABIGEN/libbypass.so $REPACK/ota/system/lib/libbypass.so
 	echo ""
 fi
 
